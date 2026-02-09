@@ -56,12 +56,6 @@ The tool calculates:
 3. **View results**: Pelleting fractions for standard vesicle sizes (50–150 nm)
 4. **Generate plot** for visualization
 
-### Example: Exosome Isolation
-Using the protocol from Livshts et al.:
-- **Step 1**: 300×g, 10 min, keep supernatant (remove cells/debris)
-- **Step 2**: 2,000×g, 10 min, keep supernatant (remove large vesicles)
-- **Step 3**: 10,000×g, 30 min, keep pellet (pellet small vesicles/exosomes)
-
 ## Technical Details
 
 ### Key Equations
