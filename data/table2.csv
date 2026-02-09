@@ -1,0 +1,9 @@
+﻿Rotor type,Rotor name,d* (30 min),Pell (150 nm),Pell (120 nm),Pell (100 nm),Pell (70 nm)
+SW,SW 40Ti,321 nm,30%,20%,14%,7%
+SW,SW28,308 nm,31%,21%,15%,7%
+SW,MLS-50,230 nm,51%,34%,25%,12%
+FA,Type 45 Ti,210 nm,62%,41%,29%,14%
+FA,Type 60 Ti,170 nm,88%,61%,43%,22%
+FA,Type 70 Ti,169 nm,88%,62%,43%,22%
+FA,F-45–24–15,128 nm,100%,95%,73%,38%
+FA,TLA 110,125 nm,100%,98%,76%,40%

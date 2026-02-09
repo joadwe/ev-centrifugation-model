@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centrifugation Parameters Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Centrifugation Parameters Calculator</h1>
+        <p class="subtitle">Based on <a href="https://www.nature.com/articles/srep17319" target="_blank">Livshts et al., Sci. Rep. 5, 17319 (2015)</a></p>
+    </header>
+
+    <main>
+        <!-- SECTION 1: Rotor Selection -->
+        <section class="card" id="section-rotor">
+            <h2><span class="step-num">1</span> Select Your Rotor</h2>
+
+            <div class="rotor-type-selector">
+                <button class="rotor-type-btn active" data-type="sw" id="btn-sw">
+                    <div class="rotor-icon">
+                        <svg viewBox="0 0 100 80" width="80" height="64">
+                            <rect x="10" y="10" width="80" height="60" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <line x1="50" y1="10" x2="50" y2="70" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4"/>
+                            <rect x="20" y="25" width="12" height="30" rx="3" fill="currentColor" opacity="0.3" stroke="currentColor" stroke-width="1"/>
+                            <rect x="68" y="25" width="12" height="30" rx="3" fill="currentColor" opacity="0.3" stroke="currentColor" stroke-width="1"/>
+                            <text x="26" y="22" text-anchor="middle" font-size="7" fill="currentColor">R<tspan font-size="5" dy="2">min</tspan></text>
+                            <text x="74" y="22" text-anchor="middle" font-size="7" fill="currentColor">R<tspan font-size="5" dy="2">max</tspan></text>
+                        </svg>
+                    </div>
+                    SW Rotor<br><small>(Swinging Bucket)</small>
+                </button>
+                <button class="rotor-type-btn" data-type="fa" id="btn-fa">
+                    <div class="rotor-icon">
+                        <svg viewBox="0 0 100 80" width="80" height="64">
+                            <g transform="rotate(-30, 50, 40)">
+                                <rect x="20" y="15" width="60" height="50" rx="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <rect x="30" y="22" width="12" height="36" rx="3" fill="currentColor" opacity="0.3" stroke="currentColor" stroke-width="1"/>
+                                <rect x="58" y="22" width="12" height="36" rx="3" fill="currentColor" opacity="0.3" stroke="currentColor" stroke-width="1"/>
+                            </g>
+                            <text x="50" y="75" text-anchor="middle" font-size="7" fill="currentColor">θ</text>
+                        </svg>
+                    </div>
+                    FA Rotor<br><small>(Fixed Angle)</small>
+                </button>
+            </div>
+
+            <div class="rotor-params" id="rotor-params">
+                <!-- SW Rotor Parameters -->
+                <div class="param-group" id="sw-params">
+                    <div class="param-row">
+                        <label for="sw-rmin">R<sub>min</sub></label>
+                        <input type="number" id="sw-rmin" step="0.1" placeholder="e.g. 66.7"> <span class="unit">mm</span>
+                    </div>
+                    <div class="param-row">
+                        <label for="sw-rmax">R<sub>max</sub></label>
+                        <input type="number" id="sw-rmax" step="0.1" placeholder="e.g. 158.8"> <span class="unit">mm</span>
+                    </div>
+                </div>
+
+                <!-- FA Rotor Parameters (hidden by default) -->
+                <div class="param-group hidden" id="fa-params">
+                    <div class="param-row">
+                        <label for="fa-rmin">R<sub>min</sub></label>
+                        <input type="number" id="fa-rmin" step="0.1" placeholder="e.g. 36.9"> <span class="unit">mm</span>
+                    </div>
+                    <div class="param-row">
+                        <label for="fa-rmax">R<sub>max</sub></label>
+                        <input type="number" id="fa-rmax" step="0.1" placeholder="e.g. 89.9"> <span class="unit">mm</span>
+                    </div>
+                    <div class="param-row">
+                        <label for="fa-angle">Angle</label>
+                        <input type="number" id="fa-angle" step="0.1" placeholder="e.g. 25"> <span class="unit">°</span>
+                    </div>
+                    <div class="param-row">
+                        <label for="fa-tube-diam">Tube Diameter</label>
+                        <input type="number" id="fa-tube-diam" step="0.1" placeholder="e.g. 23.5"> <span class="unit">mm</span>
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-secondary" id="btn-clear-rotor">Clear</button>
+                </div>
+            </div>
+
+            <details class="preset-rotors">
+                <summary>List of Standard Rotors</summary>
+                <table id="rotor-presets-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Rotor</th>
+                            <th>R<sub>min</sub> (mm)</th>
+                            <th>R<sub>max</sub> (mm)</th>
+                            <th>R<sub>av</sub> (mm)</th>
+                            <th>Angle (°)</th>
+                            <th>Tube ⌀ (mm)</th>
+                            <th>L<sub>sed</sub> (mm)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="rotor-presets-body"></tbody>
+                </table>
+            </details>
+        </section>
+
+        <!-- SECTION 2: Medium Properties -->
+        <section class="card" id="section-medium">
+            <h2><span class="step-num">2</span> Properties of the Centrifugation Medium</h2>
+            <div class="param-group">
+                <div class="param-row">
+                    <label for="vesicle-density">Vesicle density</label>
+                    <input type="number" id="vesicle-density" step="0.01" value="1.15"> <span class="unit">g/cm³</span>
+                </div>
+                <div class="param-row">
+                    <label for="medium-density">Medium density</label>
+                    <input type="number" id="medium-density" step="0.01" value="1.0"> <span class="unit">g/cm³</span>
+                </div>
+                <div class="param-row">
+                    <label for="medium-viscosity">Medium viscosity</label>
+                    <input type="number" id="medium-viscosity" step="0.01" value="1.55"> <span class="unit">cP</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Calculations -->
+        <section class="card" id="section-calc">
+            <h2><span class="step-num">3</span> Calculations</h2>
+            <p class="instructions">Fix two of the three parameters (RCF/RPM, centrifugation time, &ldquo;cut-off size&rdquo; of completely sedimented vesicles). The third will be calculated. The proportion of pelleted vesicles in the specified population is calculated automatically.</p>
+
+            <div class="calc-grid">
+                <!-- Rotation Speed -->
+                <div class="calc-block">
+                    <h3>Centrifugation Protocol</h3>
+                    <div class="param-row">
+                        <label for="rotation-speed">Rotation speed</label>
+                        <input type="number" id="rotation-speed" step="1" placeholder="e.g. 10000">
+                        <select id="speed-unit">
+                            <option value="rcf">RCF (× g)</option>
+                            <option value="rpm">RPM</option>
+                        </select>
+                    </div>
+                    <button class="btn-calc" id="btn-calc-speed">Calculate RCF / RPM</button>
+                    <div class="result-display" id="speed-result"></div>
+                </div>
+
+                <!-- Time -->
+                <div class="calc-block">
+                    <h3>Centrifugation Time</h3>
+                    <div class="param-row">
+                        <label for="cent-time">Time</label>
+                        <input type="number" id="cent-time" step="0.1" placeholder="e.g. 30"> <span class="unit">min</span>
+                    </div>
+                    <button class="btn-calc" id="btn-calc-time">Calculate Time</button>
+                </div>
+
+                <!-- Cut-off Size -->
+                <div class="calc-block">
+                    <h3>Vesicle Sedimentation Profile</h3>
+                    <div class="param-row">
+                        <label for="cutoff-size">Complete sedimentation "cut-off" size</label>
+                        <input type="number" id="cutoff-size" step="1" placeholder="e.g. 150"> <span class="unit">nm</span>
+                    </div>
+                    <button class="btn-calc" id="btn-calc-diameter">Calculate Diameter</button>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="results-section" id="results-section">
+                <h3>Pelleting Results</h3>
+                <table class="results-table" id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Vesicle diameter</th>
+                            <th>50 nm</th>
+                            <th>70 nm</th>
+                            <th>100 nm</th>
+                            <th>120 nm</th>
+                            <th>150 nm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Portion pelleted</td>
+                            <td id="pell-50">–</td>
+                            <td id="pell-70">–</td>
+                            <td id="pell-100">–</td>
+                            <td id="pell-120">–</td>
+                            <td id="pell-150">–</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Custom vesicle sizes -->
+                <div class="custom-sizes">
+                    <label>Custom vesicle diameters (comma-separated, nm):</label>
+                    <input type="text" id="custom-diameters" placeholder="e.g. 40, 60, 80, 200, 500">
+                    <button class="btn-secondary" id="btn-calc-custom">Calculate Custom</button>
+                    <div id="custom-results"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Visualization -->
+        <section class="card" id="section-plot">
+            <h2><span class="step-num">4</span> Sedimentation Profile Plot</h2>
+            <button class="btn-calc" id="btn-plot">Generate Plot</button>
+            <div id="plot-container"></div>
+        </section>
+
+        <!-- SECTION 5: K-Factor Calculator -->
+        <section class="card" id="section-kfactor">
+            <h2><span class="step-num">5</span> K-Factor (Clearing Factor) Calculator</h2>
+            <p class="instructions">The K-factor quantifies rotor pelleting efficiency. Lower K = faster sedimentation. Use it to convert run times between rotors at the same RCF: <em>t<sub>new</sub> = t<sub>old</sub> × K<sub>new</sub> / K<sub>old</sub></em></p>
+
+            <!-- Current K-factor display -->
+            <div class="kfactor-display">
+                <div class="result-display" id="kfactor-result" style="font-size:1.1rem;margin-bottom:1rem;">
+                    <span style="color:var(--text-muted);">Select a rotor and set rotation speed to see K-factor.</span>
+                </div>
+            </div>
+
+            <!-- K-factor comparison -->
+            <div class="calc-block">
+                <h3>Compare All Rotors</h3>
+                <p class="instructions" style="margin-bottom:0.5rem;">Generate a comparison table showing K-factors and equivalent run times for all preset rotors at the current RCF. Times are scaled relative to the currently selected rotor.</p>
+                <button class="btn-calc" id="btn-kfactor-compare">Compare Rotors</button>
+                <div id="kfactor-results" style="margin-top:1rem;"></div>
+            </div>
+
+            <!-- Time conversion -->
+            <div class="calc-block" style="margin-top:1rem;">
+                <h3>Run Time Conversion</h3>
+                <p class="instructions" style="margin-bottom:0.5rem;">Convert a run time from one rotor to another at the current RCF.</p>
+                <div class="kfactor-convert-row">
+                    <div class="param-row">
+                        <label for="kfactor-source-rotor">Source rotor</label>
+                        <select id="kfactor-source-rotor"></select>
+                    </div>
+                    <div class="param-row">
+                        <label for="kfactor-source-time">Run time</label>
+                        <input type="number" id="kfactor-source-time" step="1" placeholder="e.g. 30"> <span class="unit">min</span>
+                    </div>
+                    <div class="param-row">
+                        <label for="kfactor-target-rotor">Target rotor</label>
+                        <select id="kfactor-target-rotor"></select>
+                    </div>
+                </div>
+                <button class="btn-calc" id="btn-kfactor-convert">Convert Time</button>
+                <div class="result-display" id="kfactor-conversion-result" style="margin-top:0.5rem;"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Multi-step Protocol -->
+        <section class="card" id="section-protocol">
+            <h2><span class="step-num">6</span> Multi-Step Protocol Designer</h2>
+            <p class="instructions">Design a complete differential centrifugation protocol with multiple steps. Add steps and see cumulative effects on different vesicle populations.</p>
+            <div id="protocol-steps">
+                <div class="protocol-step" data-step="1">
+                    <span class="step-label">Step 1:</span>
+                    <input type="number" class="proto-rcf" placeholder="RCF (×g)" step="1">
+                    <input type="number" class="proto-time" placeholder="Time (min)" step="1">
+                    <select class="proto-action">
+                        <option value="pellet">Keep pellet</option>
+                        <option value="supernatant">Keep supernatant</option>
+                    </select>
+                    <button class="btn-remove-step" title="Remove step">×</button>
+                </div>
+            </div>
+            <button class="btn-secondary" id="btn-add-step">+ Add Step</button>
+            <button class="btn-calc" id="btn-calc-protocol">Calculate Protocol</button>
+            <div id="protocol-results"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Based on: Livshts, M. A. et al. &ldquo;Isolation of exosomes by differential centrifugation: Theoretical analysis of a commonly used protocol.&rdquo; <em>Sci. Rep.</em> <strong>5</strong>, 17319 (2015). <a href="https://doi.org/10.1038/srep17319" target="_blank">doi:10.1038/srep17319</a></p>
+        <p>Original web-calculator: <a href="https://web.archive.org/web/20240303014608/http://vesicles.niifhm.ru/" target="_blank">vesicles.niifhm.ru</a> (archived)</p>
+        <p class="disclaimer">This tool is for research/educational purposes only. Verify results independently.</p>
+    </footer>
+
+    <script src="calc.js"></script>
+</body>
+</html>

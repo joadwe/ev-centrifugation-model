@@ -1,0 +1,643 @@
+/* ===== CSS Variables & Reset ===== */
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #dbeafe;
+    --accent: #059669;
+    --accent-light: #d1fae5;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.06);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== Header ===== */
+header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+header .subtitle {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+header .subtitle a {
+    color: white;
+    text-decoration: underline;
+}
+
+/* ===== Main Layout ===== */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ===== Cards ===== */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+}
+
+.step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ===== Rotor Type Selector ===== */
+.rotor-type-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.rotor-type-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.rotor-type-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.rotor-type-btn.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.rotor-type-btn small {
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+.rotor-icon {
+    margin-bottom: 0.3rem;
+    color: inherit;
+}
+
+/* ===== Parameter Rows ===== */
+.param-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.param-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.param-row label {
+    min-width: 140px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.param-row input[type="number"],
+.param-row input[type="text"],
+.param-row select {
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    width: 140px;
+    transition: border-color 0.2s;
+    background: white;
+}
+
+.param-row input:focus,
+.param-row select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.unit {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    min-width: 40px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ===== Buttons ===== */
+.button-row {
+    margin-top: 0.75rem;
+}
+
+.btn-calc {
+    padding: 0.6rem 1.4rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+}
+
+.btn-calc:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    padding: 0.5rem 1.2rem;
+    background: white;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* ===== Preset Rotors ===== */
+.preset-rotors {
+    margin-top: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0;
+}
+
+.preset-rotors summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary);
+    user-select: none;
+}
+
+.preset-rotors[open] summary {
+    border-bottom: 1px solid var(--border);
+}
+
+.preset-rotors table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    overflow-x: auto;
+    display: block;
+}
+
+.preset-rotors thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.preset-rotors tbody {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.preset-rotors th, .preset-rotors td {
+    padding: 0.4rem 0.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.preset-rotors th {
+    background: var(--bg);
+    font-weight: 600;
+    color: var(--text-muted);
+    position: sticky;
+    top: 0;
+}
+
+.preset-rotors tr {
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.preset-rotors tbody tr:hover {
+    background: var(--primary-light);
+}
+
+.btn-use-rotor {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-use-rotor:hover {
+    background: var(--primary-dark);
+}
+
+/* ===== Calculation Section ===== */
+.calc-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+}
+
+.calc-block {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+}
+
+.calc-block h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+}
+
+.result-display {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 600;
+    min-height: 1.4rem;
+}
+
+.instructions {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* ===== Results Table ===== */
+.results-section {
+    margin-top: 1.5rem;
+}
+
+.results-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.results-table th, .results-table td {
+    padding: 0.6rem 0.75rem;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+.results-table th {
+    background: var(--primary);
+    color: white;
+    font-weight: 600;
+}
+
+.results-table td:first-child,
+.results-table th:first-child {
+    text-align: left;
+    font-weight: 600;
+}
+
+.results-table td {
+    background: white;
+}
+
+.results-table td.highlight {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* ===== Custom Sizes ===== */
+.custom-sizes {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.custom-sizes label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    width: 100%;
+}
+
+.custom-sizes input {
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    flex: 1;
+    min-width: 200px;
+}
+
+.custom-sizes input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+#custom-results {
+    width: 100%;
+    font-size: 0.88rem;
+    color: var(--text);
+    margin-top: 0.3rem;
+}
+
+#custom-results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+#custom-results th, #custom-results td {
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+#custom-results th {
+    background: var(--bg);
+    font-weight: 600;
+}
+
+/* ===== Plot ===== */
+#plot-container {
+    margin-top: 1rem;
+    min-height: 450px;
+    width: 100%;
+}
+
+/* ===== K-Factor Section ===== */
+.kfactor-display {
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.kfactor-convert-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+#kfactor-results table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+#kfactor-results th, #kfactor-results td {
+    padding: 0.5rem 0.4rem;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+#kfactor-results th {
+    background: var(--bg);
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+#kfactor-results td:first-child {
+    text-align: left;
+}
+
+#kfactor-results tbody tr:hover {
+    background: var(--primary-light);
+}
+
+/* ===== Protocol Designer ===== */
+.protocol-step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.protocol-step .step-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-width: 55px;
+}
+
+.protocol-step input {
+    padding: 0.5rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    width: 120px;
+}
+
+.protocol-step input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.protocol-step select {
+    padding: 0.5rem;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    background: white;
+}
+
+.btn-remove-step {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    background: white;
+    color: #ef4444;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-remove-step:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+#protocol-results {
+    margin-top: 1rem;
+}
+
+#protocol-results table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+#protocol-results th, #protocol-results td {
+    padding: 0.5rem;
+    text-align: center;
+    border: 1px solid var(--border);
+}
+
+#protocol-results th {
+    background: var(--bg);
+    font-weight: 600;
+}
+
+/* ===== Footer ===== */
+footer {
+    max-width: 900px;
+    margin: 1rem auto 2rem;
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+footer a {
+    color: var(--primary);
+}
+
+footer .disclaimer {
+    margin-top: 0.5rem;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+/* ===== Error Messages ===== */
+.error-msg {
+    color: #dc2626;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 0.3rem;
+}
+
+.success-msg {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.3rem;
+    }
+
+    .rotor-type-selector {
+        flex-direction: column;
+    }
+
+    .param-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .param-row label {
+        min-width: auto;
+    }
+
+    .param-row input, .param-row select {
+        width: 100%;
+    }
+
+    .protocol-step {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem;
+        background: var(--bg);
+        border-radius: 8px;
+    }
+
+    .protocol-step input, .protocol-step select {
+        width: 100%;
+    }
+
+    .preset-rotors table {
+        font-size: 0.7rem;
+    }
+}
