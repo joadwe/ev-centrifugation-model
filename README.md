@@ -1,4 +1,4 @@
-# Centrifugation Parameters Calculator
+# EV Centrifugation Model
 
 A web-based calculator for differential centrifugation parameters used in isolating extracellular vesicles (exosomes, microvesicles, etc.) by ultracentrifugation.
 
