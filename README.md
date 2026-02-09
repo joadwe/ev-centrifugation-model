@@ -2,7 +2,7 @@
 
 A web-based calculator for differential centrifugation parameters used in isolating extracellular vesicles (exosomes, microvesicles, etc.) by ultracentrifugation.
 
-**Live Demo:** [[https://joadwe.github.io/centrifugation](https://joadwe.github.io/ev-centrifugation-model/)]([https://joadwe.github.io/centrifugation](https://joadwe.github.io/ev-centrifugation-model/))
+**Live Demo:** [https://joadwe.github.io/ev-centrifugation-model/](https://joadwe.github.io/ev-centrifugation-model/)
 
 ## Overview
 
